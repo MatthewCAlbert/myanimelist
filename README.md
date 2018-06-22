@@ -10,7 +10,7 @@ Tested smoothly on Chrome Version 67.0.3396.87 (Official Build) (64-bit).
 - Responsive mobile website, unlike MAL ofc. And lightweight.
 
 # Design
-You know it, it's from (http://www.myanimelist.net)MyAnimeList.net website lol.
+You know it, it's from (http://www.myanimelist.net) MyAnimeList.net website lol.
 
 # Documentation
 No, I don't provide one, I'm too lazy :v. Find out yourself. I already give some examples below
@@ -85,4 +85,4 @@ Plain page structure, must be in .php format.
     </div>
 </body>
 </html>
-```"# myanimelist" 
+```
