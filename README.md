@@ -1,5 +1,3 @@
-#MyHList
-
 # About
 A PHP web application to create your own custom anime list. Btw, this is an online application, so make sure you're online.
 Created on June 2018.
