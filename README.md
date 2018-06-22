@@ -1,11 +1,13 @@
+#MyHList
+
 # About
 A PHP web application to create your own custom anime list. Btw, this is an online application, so make sure you're online.
-Created on June 201
+Created on June 2018.
 Build using MySQL, PHP, Javascript(ES6), jQuery, Bootstrap 4, Font Awesome 5.
 Tested smoothly on Chrome Version 67.0.3396.87 (Official Build) (64-bit).
 
 # Features
-- Add, search, edit your list.
+- Add, search, edit your list ( anime, episodes, and character ).
 - A movie player, create your own anime library, so make sure episode link you've inserted is a valid playable .mp4 videos.
 - Responsive mobile website, unlike MAL ofc. And lightweight.
 
@@ -18,7 +20,7 @@ No, I don't provide one, I'm too lazy :v. Find out yourself. I already give some
 # Licenses
 Creative Commons Attribution 4.0 International License. (http://creativecommons.org/licenses/by/4.0/)
 
-## Getting Started
+# Getting Started
 *Follow the folder repository zip structure.
 Host this folder to your host side.
 Import myhlist.sql to your MySQL server.

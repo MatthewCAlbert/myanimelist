@@ -1,6 +1,27 @@
 <div class="row">
     <div class="col-12">
     <?php
+        $animes = array();
+        $animes = explode(',',$row['anime_id']);
+        $appear_on_anime = '';
+        $i = 1 ;
+        foreach($animes as $anime){
+            if(!empty($anime)){
+                $sql2 = "SELECT `title`,`id` FROM `anime` WHERE `id`='$anime'";
+                $res2 = $conn->query($sql2);
+                if( $res2 ){
+                    if( $res2->num_rows>0 ){
+                        $row2 = mysqli_fetch_assoc($res2);
+                        $appear_on_anime .= '<a href="../anime/view.php?id='.$row2['id'].'" >'.$row2['title'].'</a> ';
+                        if( $i != count($animes) ){
+                            $appear_on_anime .=", ";
+                        }
+                        $i++;
+                    }
+                }
+            }
+        }
+
         if( $row['rating'] <= 0 || empty($row['rating']) ){
             $rating_final = ' <i>Not Rated Yet</i>';
         }else if( $row['rating'] > 10){
@@ -8,13 +29,7 @@
         }else{
             $rating_final = $row['rating']; 
         }
-
-    if( !empty($row['english_title']) ){
-        $english_title = ''.$row['english_title'].'';
-    }else{
-        $english_title = '';
-    }
-    echo '<h3>'.$row['title'].' <small><i class="fas fa-star fa-sm" style="color:orange;"></i>'.$rating_final.' (ID: '.$row['id'].')</small></h3> '; ?>
+    echo '<h3>'.$row['name'].' <small><i class="fas fa-star fa-sm" style="color:orange;"></i>'.$rating_final.' (ID: '.$row['id'].')</small></h3> '; ?>
     </div>
     <div class="col-md-3 col-sm-12">
         <?php
@@ -44,75 +59,15 @@
             }
         }
         ?>
-    <h6><br>Synonyms</h6>
-    <p><?php echo $english_title; ?></p>
-    <h6><br>Airing Date</h6>
-    <p><?php 
-    if( !empty($row['date_from']) ){
-        echo date('F-Y',strtotime($row['date_from']));
-    }else{
-        echo '--';
-    }
-    echo ' to ';
-    if( !empty($row['date_to']) ){
-        echo date('F-Y',strtotime($row['date_to']));
-    }else{
-        echo '--';
-    }
-    ?></p>
     </div>
     <div class="col-md-9 col-sm-12 col-12">
+        <h6>Anime</h6>
+        <p><?php echo $appear_on_anime; ?></p>
         <p><?php echo $final_tag; ?></p>
-        <h6>Number Of Episodes</h6>
-        <p><?php echo $row['episode']; ?></p>
-        <h6>Characters</h6>
-        <p><?php echo $chara_list; ?></p>
+        <h6>Appeared on Episode</h6>
+        <p><?php echo $row['appeared']; ?></p>
         <h6>Description</h6>
         <p class="text-justify"><?php echo $row['description']; ?></p>
-        <div class="hr hr-100"></div>
-        <h6>Episode Details</h6>
-        <?php 
-        $episode_count = $row['episode'];
-        $eps_option = '';
-        $eps_desc = '';
-        $eps_tags = '';
-        $eps_link = '';
-        for( $i = 1 ; $i <= $episode_count ; $i++ ){
-            $sql2 = "SELECT * FROM `episode` WHERE `episode`='$i' AND `anime_id`='$id'";
-            $res2 = $conn->query($sql2);
-            if($res2){
-                if($res2->num_rows == 1){
-                    while($row2 = mysqli_fetch_array($res2) ){
-                        $eps_option .= '<option value="'.$i.'">Episode '.$i.'</option>';
-                        $eps_desc .= '<textarea class="form-control hide cursor-default" name="epsdesc-'.$i.'" rows="4" cols="50" readonly>'.$row2['description'].'</textarea>';
-                        $eps_tags .= '<input type="text" class="form-control hide cursor-default" value="'.$row2['tag'].'" name="epstag-'.$i.'" readonly />';
-                        $links = array();
-                        $links = explode(',',$row2['link']);
-                        foreach( $links as $link ){
-                            $eps_link .= '<a href="../watch?a-id='.$row['id'].'&episode='.$i.'" class="">Watch Episode '.$i.'</a><br>';
-                        }
-                    }
-                }
-            }
-        }
-        echo '<br>
-        <select id="episode-selector" onclick="changeEpisode(this.value)">
-            '.$eps_option.'
-        </select>
-        <br><br>
-        <div id="episode-text">
-            '.$eps_desc.'
-        </div>
-        <div id="episode-tag">
-            <label>Episode Tags</label>
-            '.$eps_tags.'
-        </div>
-        <div id="episode-link">
-            <label>Episode Links</label><br>
-            '.$eps_link.'
-        </div>
-        <br>';
-        ?>
         <div class="hr hr-100"></div>
         <h6>Gallery</h6>
         <?php
@@ -129,7 +84,7 @@
                     $gallery_indicator .= '<li data-target="#demo" data-slide-to="'.$i.'"></li>';
                     $gallery_img .= '
                     <div class="carousel-item">
-                    <img src="'.$images[$i].'" width="200px" alt="'.$i.'" />
+                    <img src="'.$images[$i].'" width="100px" alt="'.$i.'" />
                     </div>';
                 }
             }

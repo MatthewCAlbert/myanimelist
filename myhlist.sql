@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 22, 2018 at 07:30 PM
+-- Generation Time: Jun 22, 2018 at 10:58 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.4
 
@@ -49,7 +49,7 @@ CREATE TABLE `anime` (
 
 CREATE TABLE `chara` (
   `id` int(11) NOT NULL,
-  `anime_id` int(11) NOT NULL,
+  `anime_id` text NOT NULL,
   `appeared` text NOT NULL,
   `name` varchar(100) NOT NULL,
   `description` text NOT NULL,
@@ -105,19 +105,19 @@ ALTER TABLE `episode`
 -- AUTO_INCREMENT for table `anime`
 --
 ALTER TABLE `anime`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `chara`
 --
 ALTER TABLE `chara`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `episode`
 --
 ALTER TABLE `episode`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

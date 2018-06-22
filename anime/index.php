@@ -283,6 +283,8 @@
 
                                         if( $row['rating'] <= 0 || empty($row['rating']) ){
                                             $rating_final = ' <i>Not Rated Yet</i>';
+                                        }else if( $row['rating'] > 10){
+                                            $rating_final = 10;
                                         }else{
                                             $rating_final = $row['rating']; 
                                         }
@@ -307,6 +309,7 @@
                                                 </div>'; 
                                             }
                                         }else{
+                                            if( ($completion_tag >= $tags_count && isset($_GET['search'])) || !isset($_GET['search']) ){
                                             $img_url = "'".$images[0]."'";
                                             $link_url = "'view.php?id=".$row['id']."'";
                                             echo '
@@ -317,6 +320,7 @@
                                             </div>
                                             </div>
                                             </div>';
+                                            }
                                         }
                                     }
                                 }else{

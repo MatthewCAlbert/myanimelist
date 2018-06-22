@@ -15,7 +15,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col">
-                        <h1>Some Content</h1>
+                        <h2>Welcome to MyHList</h2>
                         <p>Lorem Ipsum</p>
                         <p>Do I need to fill it?</p>
                         <div style="padding:20px;border-radius:20px;background-color:#E1E7F5;">

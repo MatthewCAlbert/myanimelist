@@ -17,11 +17,6 @@
                     <div class="col-md-12">
                         <?php
                             if(isset($_POST['submit-anime'])){
-                                $sql = "SELECT `tag` FROM `anime`";
-                                $res = $conn->query($sql);
-                                if($res){
-                                    $entry = $res->num_rows + 1;
-                                }
                                 $jp_name = mysqli_escape_string($conn,$_POST['name']);
                                 $en_name = mysqli_escape_string($conn,$_POST['english-name']);
                                 $episode_count = mysqli_escape_string($conn,$_POST['episode-count']);
@@ -37,6 +32,16 @@
                                     echo '<p class="alert alert-success">Anime entry success!</p>';
                                 }else{
                                     echo '<p class="alert alert-danger">Anime entry failed!</p>';
+                                }
+                                $sql = "SELECT `id` FROM `anime` WHERE `title`='$jp_name' AND `episode`='$episode_count' ";
+                                $res = $conn->query($sql);
+                                if($res){
+                                    if( $res->num_rows> 0 ){
+                                        $row = mysqli_fetch_assoc($res);
+                                        $entry = $row['id'];
+                                    }else{
+                                        echo '<p class="alert alert-warning">Oops, something went wrong!</p>';
+                                    }
                                 }
                                 for( $i = 1 ; $i <= $episode_count ; $i++ ){
                                     $episode_tags = mysqli_escape_string($conn,$_POST["epstag-$i"]);
@@ -60,15 +65,25 @@
                                 $image_link = mysqli_escape_string($conn,$_POST['image-link']);
                                 $rating =  mysqli_escape_string($conn,$_POST['rating']);
 
-                                $sql = "SELECT * FROM `anime` WHERE `id`='$anime_id'";
-                                $res = $conn->query($sql);
-                                if($res){
-                                    $approved = $res->num_rows;
-                                }else{
-                                    $approved = 0;
+                                $animes = array();
+                                $animes = explode(',',$anime_id);
+                                $counted_anime = 0;
+                                $approved = true;
+                                foreach($animes as $anime){
+                                    $sql = "SELECT * FROM `anime` WHERE `id`='$anime'";
+                                    $res = $conn->query($sql);
+                                    if($res){
+                                        if( $res->num_rows > 0 ){
+                                            $counted_anime++;
+                                        }else{
+                                            $approved = false;
+                                        }
+                                    }else{
+                                        $approved = false;
+                                    }
                                 }
 
-                                if( $approved > 0 ){
+                                if( $approved == true ){
                                     $sql = "INSERT INTO `chara`(`anime_id`,`appeared`,`name`,`description`,`tag`,`image_link`,`rating`) VALUES ('$anime_id','$appeared_on','$name','$chara_desc','$chara_tags','$image_link','$rating')";
                                     $res = $conn->query($sql);
                                     if($res){
@@ -136,8 +151,8 @@
                         <form class="form-control" method="post" action="index.php">
                             <label>Name</label>
                             <input type="text" class="form-control" name="name"/>
-                            <label>Anime ID <small>(Get anime ID at the anime search page.)</small></label>
-                            <input type="number" min="1" class="form-control" name="anime-id"/>
+                            <label>Anime ID <small>(Get anime ID at the anime search page.)</small><small>(Please seperate tags with comma otherwise it won't work.)</small></label>
+                            <input type="text" class="form-control" name="anime-id"/>
                             <label>Appear on Episode <small>(Please seperate tags with comma otherwise it won't work.)</small></label>
                             <input type="text" class="form-control" name="episode-tag" />
                             <label>Description</label>
@@ -162,6 +177,11 @@
     <script>
         $(document).ready(function(){
             applyFilterOption();
+            let filtercookie = getCookie('type-filter');
+            switch(filtercookie){
+                case 'anime': $('#anime').show();$('#chara').hide();break;
+                case 'chara': $('#anime').hide();$('#chara').show();break;
+            }
         });
     </script>
 </body>
