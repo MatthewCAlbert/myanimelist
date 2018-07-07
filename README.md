@@ -7,7 +7,6 @@ Tested smoothly on Chrome Version 67.0.3396.87 (Official Build) (64-bit).
 # Features
 - Add, search, edit your list ( anime, episodes, and character ).
 - A movie player, create your own anime library, so make sure episode link you've inserted is a valid playable .mp4 videos.
-- Responsive mobile website, unlike MAL ofc. And lightweight.
 - Responsive mobile website and lightweight.
 - Choose to make your list private or not.
 - Member and Admin account.
@@ -59,8 +58,10 @@ Default settings
 ```
 
 ## Default Admin User
+```txt
 Username : root
 Password : admin
+```
 
 ## Page Structure
 Adding new page in this root folder, create a new folder name it according to the page name.
