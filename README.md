@@ -26,10 +26,12 @@ Host this folder to your host side.
 Import myhlist.sql to your MySQL server.
 And setup exactly according to below.
 
-## Changing MySQL Server and DB Name
+## Changing MySQL Server and DB Name also changing the private status of the list.
 Go to include/server.php.
 Default settings
 ```php
+    session_start();
+    $private_col = false; // Change this to change private status
     $servername = "localhost:3306";
     $username = "root";
     $password = "";
@@ -47,7 +49,7 @@ Default settings
 Go to include/head.php.
 Default settings
 ```php
-    //change this to change every website pages end <title> tags.
+    // Change this to change every website pages end <title> tags
     $title_dash = ' - MyAnimeList';
 ```
 
