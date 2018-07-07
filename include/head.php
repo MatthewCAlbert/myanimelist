@@ -1,6 +1,6 @@
     <?php
         //change this to change every website pages end <title> tags.
-        $title_dash = ' - MyHList';
+        $title_dash = ' - MyAnimeList';
     ?>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
+    <meta name="theme-color" content="#2E51A2" />
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/img/favicon.jpg"/>
     <!-- Latest compiled and minified CSS -->
@@ -27,3 +28,11 @@
     <script src="../assets/cookie.js"></script>
     <!-- Custom CSS -->
     <link href="../assets/main.css" rel="stylesheet"/>
+
+    <!-- Slick Plugin -->
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>

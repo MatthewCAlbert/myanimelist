@@ -1,8 +1,12 @@
+<?php
+    require '../include/server.php';
+    require '../include/getuserdata.php';
+    require '../include/private.php';
+?>
 <!DOCTYPE html>
 <html>
 <head>
     <?php
-        require '../include/server.php';
         require '../include/head.php';
         if(isset($_GET['id'])){
             $id = mysqli_escape_string($conn,$_GET['id']);

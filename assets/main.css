@@ -1,8 +1,10 @@
 @import url('http://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic');
+@import url('https://fonts.googleapis.com/css?family=Viga');
 html,
 body{
    margin:0;
    padding:0;
+   font-family: Verdana,Arial;
 }
 /* Main Wrapper */
 .sm-icon{
@@ -13,9 +15,17 @@ body{
     padding:2px 10px;
     cursor: default;
     margin: 0 5px;
+    white-space: nowrap;
 }
 .sm-icon.md{
     font-size:.9em;
+}
+.table-cut-padding td{
+    padding: 0 5px 0 0 !important;
+    border:none;
+}
+p.description{
+    white-space: pre-line !important;
 }
 .sm-show{
     display: none !important;
@@ -33,6 +43,7 @@ form input.form-control:focus{
 }
 .btn.btn-primary{
     background-color:#2E51A2 !important;
+    border-color: #2E51A2 !important;
     box-shadow: none;
 }
 .hide{
@@ -40,35 +51,16 @@ form input.form-control:focus{
 }
 .search-result-container{
     padding:20px;
-    width:100%;
+    min-width:70vw;
     background-color: #E1E7F5;
-    margin: 10px 0;
+    margin: 10px 15px;
 }
 .desc-hidden{
     max-height:100px;
+    width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.footer {
-    position: relative;
-    margin:auto;
-    display: table;
-    bottom: 20px;
-    margin-top: 10px;
-    padding:0;
-}
-.footer > .footer-inner{
-    text-align: center;
-    margin: auto;
-    margin-top:20px;
-    padding: 1rem;
-    background-color: #efefef;
-}
-.footer .attribution{
-    text-align: center;
-    cursor: default;
-    font-size: .9em;
-} 
 .portrait-result-container-wrapper{
     padding:20px;
 }
@@ -88,24 +80,104 @@ form input.form-control:focus{
 .cursor-default{
     cursor: default;
 }
+.result-desc{
+    color:white;background-color:rgba(0,0,0,0.5);height:100px;position:absolute;bottom:20px;left:10%;right:10%;padding:10px;
+}
+.announcement{
+    width:83.333%;margin:10px auto 0 auto;display:table;
+}
+.announcement > div.col-12:first-child{
+    background-color:#E1E7F5;margin:-10px 0 0 0;padding-top:7px;border-bottom:1px solid #2E51A2
+}
+.announcement > div.col-12:first-child > h5{
+    font-size:1.1rem !important;
+}
+a:hover{
+    text-decoration: none;
+}
 
+/* Slider gallery css */
+.gallery-wrapper{
+    width:160px;
+    height:220px !important;
+}
+.gallery-wrapper.portrait{
+    padding:0 !important;
+    margin: 10px 5px 5px 5px !important;
+}
+.gallery-wrapper .gallery-img:hover{
+    opacity: .6;
+}
+a:hover > .small-img{
+    opacity: .6;
+}
+.horizontal-list{
+    float:left;
+    cursor: pointer;
+}
+.gallery-title{    
+    background-image: url('https://myanimelist.net/images/image_box_shadow_bottom.png?v=160803001');
+    background-position: left bottom;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    width:160px;
+    bottom: 0;
+    color: #fff;
+    display: inline-block;
+    font-family: Avenir,lucida grande,tahoma,verdana,arial,sans-serif;
+    font-size: 11px;
+    line-height: 1.2em;
+    padding: 15px 5px 5px;
+    position: absolute;
+    text-shadow: rgba(0,0,0,.8) 1px 1px 0
+}
+.slick-prev:before, .slick-next:before {
+    color:#2E51A2 !important;
+}
+.gallery-img{
+    height: 220px;
+    width: 160px;
+}
+.lazyloaded{
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimizeQuality;
+    -ms-interpolation-mode: bicubic;
+    opacity: 1;
+    -webkit-transition-duration: .3s;
+    transition-duration: .3s;
+    -webkit-transition-property: opacity;
+    transition-property: opacity;
+    -webkit-transition-timing-function: ease-in-out;
+    transition-timing-function: ease-in-out;
+}
 
 /* Navbar */
 nav{
-    background-color:#2E51A2;
     margin: 20px auto auto auto;
     display: table;
+    padding:0 !important;
+}
+nav .navbar{
+    background-color:#2E51A2;
+    padding: 0 !important;
 }
 nav .navbar-brand{
-    color:white;
+    color: #2E51A2;
     font-weight: 600;
     font-size: 1.6em;
     margin-left:10px;
-    font-family:"Open Sans";
+    font-family:"Viga";
+}
+.navbar-brand.brand-invert{
+    color: white;
+}
+nav .navbar-top{
+    background: white;
 }
 nav .nav-link{
     display: inline-block;
     color:white;
+    font-weight: bold;
 }
 nav .nav-link:hover{
     background-color:#E1E7F5;
@@ -121,44 +193,91 @@ nav .nav-link:hover{
 #menu-button:focus{
     outline:none;
 }
+.small-list *{
+    font-size: .9em !important;
+}
 
 
 /* Sidebar Nav */
 aside.sidebar{
     overflow-x: hidden;
+    position: fixed;
+    z-index: 5;
 }
 .main-wrapper > aside.sidebar{
     height: 100vh;
     transition: .5s;
     -webkit-transition:.5s;
-    background-color:#E1E7F5;
+    background-color:#2E51A2;
 }
 .sidebar .sidebar-item{
     padding: 10px 20px;
     margin:5px 0;
     cursor:pointer;
-    font-size:1.5rem;
+    font-size:1.2rem;
 }
 .sidebar .sidebar-item:hover{
-    background-color:#2E51A2;
+    background-color:#E1E7F5;
     transition: .5s;
     -webkit-transition:.5s;
 }
 .sidebar .sidebar-link{
-    color:black;
-    font-weight: 500;
+    color:white;
+    font-weight: 800;
+    white-space: nowrap;
+}
+.sidebar .sidebar-link > i{
+    width:30px;
 }
 .sidebar .sidebar-item:hover > .sidebar-link{
-    color:white;
+    color:black;
     transition: .5s;
     -webkit-transition:.5s;
+    padding-left:20px;
+}
+.sidebar .sidebar-item:hover > .sidebar-link:before{
+    content:' ';
+    position: absolute;
+    left:0;
+    margin-top:-10px;
+    background-color:white;
+    width:20px;
+    height: 47px;
 }
 .sidebar .sidebar-link:hover{
     text-decoration: none;
 }
 
+/* Footer */
+.footer {
+    position: relative;
+    margin:auto;
+    display: table;
+    bottom: 20px;
+    margin-top: 10px;
+    padding:0;
+    color:white;
+}
+.footer a:link, .footer a:visited{
+    color:white;
+}
+.footer > .footer-inner{
+    text-align: center;
+    margin: auto;
+    margin-top:20px;
+    padding: 1rem;
+    background-color: #2E51A2;
+}
+.footer .attribution{
+    text-align: center;
+    cursor: default;
+    font-size: .8em;
+    color: #7990C8;
+    margin-top:10px;
+    margin-bottom:0;
+} 
 
-@media screen and (max-width: 630px) {
+@media screen and (max-width: 600px) {
     .img-expand{
         width:100%;
     }
@@ -187,6 +306,12 @@ aside.sidebar{
         margin:auto;
         bottom: 0;
     }
+    .result-desc{
+        height: 110px;
+    }
+    .search-result-container{
+        max-width: 88vw;
+    }
 }
 
   
@@ -196,6 +321,10 @@ aside.sidebar{
     height:3px;
     background-color:rgba(0,0,0,0.7);
     margin: 20px auto;
+}
+.hr-light{
+    height: 1px;
+    margin: auto;
 }
 .hr.hr-invert{
     background-color:white;
@@ -207,7 +336,17 @@ aside.sidebar{
 #video-player{
     background:grey;
 }
+.slide-hidden{
+    overflow: hidden;
+    height: 100%;
+    display: none;
+}
 
+@media screen and (max-width: 770px) {
+    .announcement{
+        width: 100% !important;
+    }
+}
 @media screen and (max-width: 991px) {
     nav{
         margin:auto;
@@ -216,5 +355,10 @@ aside.sidebar{
 @media screen and (max-width: 450px) {
     .sm-icon.md{
         margin:auto 5px;
+    }
+}
+@media screen and (max-width: 400px) {
+    .result-desc{
+        height: 150px;
     }
 }

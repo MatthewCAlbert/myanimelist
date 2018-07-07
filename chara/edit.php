@@ -1,16 +1,29 @@
+<?php
+    require '../include/server.php';
+    require '../include/session.checker.php';
+    require '../include/getuserdata.php';
+    if($user_row['status']!='administrator'){
+        header('Location: ..');
+        exit();
+    }
+?>
 <!DOCTYPE html>
 <html>
 <head>
     <?php
-        require '../include/server.php';
         require '../include/head.php';
     ?>
-    <title>Edit<?php echo $title_dash; ?></title>
+    <title>Edit Character<?php echo $title_dash; ?></title>
 </head>
 <body>
     <?php
         include '../include/sidebar.php';
     ?>
+        <div class="announcement">
+        <div class="col-12">
+            <h5><b>Edit Character</b></h5>
+        </div>
+        </div>
         <section class="content">
             <div class="container">
                 <div class="row">

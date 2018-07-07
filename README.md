@@ -1,13 +1,16 @@
 # About
 A PHP web application to create your own custom anime list. Btw, this is an online application, so make sure you're online.
 Created on June 2018.
-Build using MySQL, PHP, Javascript(ES6), jQuery, Bootstrap 4, Font Awesome 5.
+Build using MySQL, PHP, Javascript(ES6), jQuery, Bootstrap 4, Font Awesome 5, Slick.JS (http://kenwheeler.github.io/slick) .
 Tested smoothly on Chrome Version 67.0.3396.87 (Official Build) (64-bit).
 
 # Features
 - Add, search, edit your list ( anime, episodes, and character ).
 - A movie player, create your own anime library, so make sure episode link you've inserted is a valid playable .mp4 videos.
 - Responsive mobile website, unlike MAL ofc. And lightweight.
+- Responsive mobile website and lightweight.
+- Choose to make your list private or not.
+- Member and Admin account.
 
 # Design
 You know it, it's from (http://www.myanimelist.net) MyAnimeList.net website lol.
@@ -16,7 +19,7 @@ You know it, it's from (http://www.myanimelist.net) MyAnimeList.net website lol.
 No, I don't provide one, I'm too lazy :v. Find out yourself. I already give some examples below
 
 # Licenses
-Creative Commons Attribution 4.0 International License. (http://creativecommons.org/licenses/by/4.0/)
+-
 
 # Getting Started
 *Follow the folder repository zip structure.
@@ -31,7 +34,7 @@ Default settings
     $servername = "localhost:3306";
     $username = "root";
     $password = "";
-    $dbname = "myhlist";
+    $dbname = "myanimelist";
 
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -46,14 +49,18 @@ Go to include/head.php.
 Default settings
 ```php
     //change this to change every website pages end <title> tags.
-    $title_dash = ' - MyHList';
+    $title_dash = ' - MyAnimeList';
 ```
 
 Go to include/sidebar.php.
 Default settings
 ```html
-    <div class="p-1 mr-auto"><a href=".." class="navbar-brand text-bold">MyHList.net</a></div>
+    <div class="p-1 mr-auto"><a href=".." class="navbar-brand text-bold">MyAnimeList</a></div>
 ```
+
+## Default Admin User
+Username : root
+Password : admin
 
 ## Page Structure
 Adding new page in this root folder, create a new folder name it according to the page name.
@@ -61,6 +68,9 @@ And then add index.php inside the newly created folder according to php file for
 
 Plain page structure, must be in .php format.
 ```html
+<?php
+    require '../include/server.php';
+?>
 <!DOCTYPE html>
 <html>
 <head>

@@ -1,8 +1,16 @@
+<?php
+    require '../include/server.php';
+    require '../include/session.checker.php';
+    require '../include/getuserdata.php';
+    if($user_row['status']!='administrator'){
+        header('Location: ..');
+        exit();
+    }
+?>
 <!DOCTYPE html>
 <html>
 <head>
     <?php
-        require '../include/server.php';
         require '../include/head.php';
     ?>
     <title>Entry<?php echo $title_dash; ?></title>
@@ -11,6 +19,11 @@
     <?php
         include '../include/sidebar.php';
     ?>
+        <div class="announcement">
+        <div class="col-12">
+            <h5><b>Add Entry</b></h5>
+        </div>
+        </div>
         <section class="content">
             <div class="container">
                 <div class="row">
@@ -26,6 +39,9 @@
                                 $date_from =  mysqli_escape_string($conn,$_POST['date-from']);
                                 $date_to =  mysqli_escape_string($conn,$_POST['date-to']);
                                 $rating =  mysqli_escape_string($conn,$_POST['rating']);
+                                $prequel =  mysqli_escape_string($conn,$_POST['prequel']);
+                                $sequel =  mysqli_escape_string($conn,$_POST['sequel']);
+                                $other =  mysqli_escape_string($conn,$_POST['other']);
                                 $sql = "INSERT INTO `anime`(`title`,`english_title`,`episode`,`description`,`tag`,`image_link`,`date_from`,`date_to`,`rating`) VALUES ('$jp_name','$en_name','$episode_count','$anime_desc','$anime_tags','$image_link','$date_from','$date_to','$rating')";
                                 $res = $conn->query($sql);
                                 if($res){
@@ -125,6 +141,14 @@
                             <input type="number" min="1" max="1000" value="1" class="form-control" onchange="changeEpisodeCount(this.value)" name="episode-count"/>
                             <label>Image Links <small>(Please seperate tags with comma otherwise it won't work.)</small></label>
                             <input type="text" class="form-control" name="image-link"/>
+                            <div class="hr hr-100"></div>
+                            <h6>Anime Relation <small>(ID)</small></h6>
+                            <label>Prequel</label>
+                            <input type="text" class="form-control" name="prequel"/>
+                            <label>Sequel</label>
+                            <input type="text" class="form-control" name="sequel"/>
+                            <label>Other</label>
+                            <input type="text" class="form-control" name="other"/>
                             <div class="hr hr-100"></div>
                             <label>Episode Information</label><br>
                             <select id="episode-selector" onclick="changeEpisode(this.value)">

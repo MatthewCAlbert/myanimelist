@@ -125,3 +125,33 @@ function copyToClipboard(x) {
     document.execCommand("copy");
     $temp.remove();
   }
+
+function episodeEdit(x){
+    $('#ep-edit > button').remove();
+    if( x == 1 ){
+        $('#ep-edit > .remove').show();
+        $('#ep-edit > .remove2').hide();
+        $('#ep-edit').append('<button type="button" class="btn btn-danger" style="margin-right:10px;" onclick="episodeEdit(0)" id="cancel">Cancel</button>');
+        $('#ep-edit').append('<button type="submit" class="btn btn-primary" name="submit" id="submit">Submit</button>');
+    }else{
+        $('#ep-edit > .remove').hide();
+        $('#ep-edit > .remove2').show();
+        $('#ep-edit').append('<button class="btn btn-primary" type="button" onclick="episodeEdit(1)" id="trigger">Update Episode Info</button>');
+    }
+}
+
+function toggleSlide(x){
+    $('#slide-container-'+x).slideToggle();
+}
+
+function changePassword(){
+    if( $('#password-change').hasClass('hide') ){
+        $('#password-change').removeClass('hide');
+        $('#password-change > input').prop('required',true);
+        $('input[name=password-change]').val('1');
+    }else{
+        $('#password-change').addClass('hide');
+        $('#password-change > input').prop('required',false);
+        $('input[name=password-change]').val('0');
+    }
+}

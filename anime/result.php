@@ -12,7 +12,7 @@
     if( !empty($row['english_title']) ){
         $english_title = ''.$row['english_title'].'';
     }else{
-        $english_title = '';
+        $english_title = '-';
     }
     echo '<h3>'.$row['title'].' <small><i class="fas fa-star fa-sm" style="color:orange;"></i>'.$rating_final.' (ID: '.$row['id'].')</small></h3> '; ?>
     </div>
@@ -38,12 +38,17 @@
             */
             if(!empty($tag_rows[$i])){
             switch($tag_rows[$i]){
-                case 'favorite' : $final_tag .= '<span class="sm-icon md" style="background-color:maroon;">'.ucwords($tag_rows[$i]).'</span>';break;
-                default : $final_tag .= '<span class="sm-icon md">'.ucwords($tag_rows[$i]).'</span>';break;
+                case 'favorite' : $final_tag .= '<td><span class="sm-icon md" style="background-color:maroon;">'.ucwords($tag_rows[$i]).'</span></td>';break;
+                default : $final_tag .= '<td><span class="sm-icon md">'.ucwords($tag_rows[$i]).'</span></td>';break;
             }
             }
         }
         ?>
+    <?php 
+        if($user_row['status']=='administrator'){
+            echo '<a href="edit.php?id='.$row['id'].'" style="margin-top:10px;" class="btn btn-primary">Edit</a>'; 
+        }
+    ?>
     <h6><br>Synonyms</h6>
     <p><?php echo $english_title; ?></p>
     <h6><br>Airing Date</h6>
@@ -62,13 +67,13 @@
     ?></p>
     </div>
     <div class="col-md-9 col-sm-12 col-12">
-        <p><?php echo $final_tag; ?></p>
+        <table class="table table-responsive table-cut-padding"><tr><?php echo $final_tag; ?></tr></table>
         <h6>Number Of Episodes</h6>
         <p><?php echo $row['episode']; ?></p>
         <h6>Characters</h6>
         <p><?php echo $chara_list; ?></p>
         <h6>Description</h6>
-        <p class="text-justify"><?php echo $row['description']; ?></p>
+        <p class="text-justify description"><?php echo $row['description']; ?></p>
         <div class="hr hr-100"></div>
         <h6>Episode Details</h6>
         <?php 

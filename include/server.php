@@ -1,8 +1,10 @@
 <?php
+    session_start();
+    $private_col = false;
     $servername = "localhost:3306";
     $username = "root";
     $password = "";
-    $dbname = "myhlist";
+    $dbname = "myanimelist";
 
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);

@@ -1,8 +1,12 @@
+<?php
+    require '../include/server.php';
+    require '../include/getuserdata.php';
+    require '../include/private.php';
+?>
 <!DOCTYPE html>
 <html>
 <head>
     <?php
-        require '../include/server.php';
         require '../include/head.php';
     ?>
     <title>Character<?php echo $title_dash; ?></title>
@@ -15,134 +19,21 @@
     <?php
         include '../include/sidebar.php';
     ?>
+        <div class="announcement">
+        <div class="col-12">
+            <h5><b>Search Character</b></h5>
+        </div>
+        </div>
         <section class="content">
             <div class="container">
                 <div class="row">
                     <div class="col">
-                        <h4>Search Character</h4>
                         <form class="form-control" method="get" action="../chara" style="padding:20px 10px;">
                             <input type="hidden" name="page" value="1" hidden/>
-                            <input type="text" class="form-control" name="search" value="<?php if(isset($_GET['search'])){echo $_GET['search'];} ?>" style="margin:0 20px 0 0;" placeholder="Search Character Name.." id="search-box"/>
+                            <input type="text" class="form-control" name="search" value="<?php if(isset($_GET['search'])){echo $_GET['search'];} ?>" style="margin:0 20px 10px 0;" placeholder="Search Character Name.." id="search-box"/>
                             <input type="text" name="tag" hidden/>
                             <?php
-                                if(!isset($_GET['search'])){
-                                    $edit = true;
-                                    $show_image = false;
-                                    $portrait = false;
-                                }
-                                $sql = "SELECT `tag`,`name` FROM `chara`";
-                                //$sql .= " UNION SELECT `tag` FROM `episode`";
-                                $res = $conn->query($sql);
-                                if( $res ){
-                                    if( $res->num_rows > 0 ){
-                                        $tags = array();
-                                        $tags_compilation = array();
-                                        $i = 0;
-                                        $titles = array();
-                                        while($row = mysqli_fetch_array($res)){
-                                            $tags_raw = array();
-                                            $tags_raw = explode(',',$row['tag']);
-                                            array_push($titles,$row['name']);
-                                            foreach($tags_raw as $tag_raw){
-                                                if( !in_array($tag_raw,$tags) ){
-                                                    array_push($tags,$tag_raw);
-                                                }
-                                                if(!empty($tag_raw)){
-                                                    array_push($tags_compilation,$tag_raw);
-                                                }
-                                            }
-                                        }
-                                        echo '<script>
-                                        $( function() {
-                                            var availableTags = '.json_encode($titles).';
-                                            $( "#search-box" ).autocomplete({
-                                            source: availableTags
-                                            });
-                                        } );
-                                        </script>';
-                                        foreach($tags as $tag){
-                                            $i++;
-                                            $check_tag = '';
-                                            if( isset($_GET['tag']) ){
-                                                $taggs = explode(',',mysqli_escape_string($conn,$_GET['tag']));
-                                                foreach( $taggs as $tagg ){
-                                                    if( $tagg == $tag ){
-                                                        $check_tag = ' checked ';
-                                                        if( !empty($tag) ){
-                                                            echo '<script>tags.push("'.$tag.'");</script>';
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            if( !empty($tag) ){
-                                                $tag_counted = array_count_values($tags_compilation);
-                                                $tag_edit = preg_replace('/\s+/', '', $tag);
-                                                $tag_syntax = "'".$tag."'";
-                                                echo '<div class="form-check-inline">
-                                                <label class="form-check-label" for="f-'.$tag_edit.'"><input type="checkbox" class="form-check-input" id="f-'.$tag_edit.'" onclick="changeTag('.$tag_syntax.')" '.$check_tag.' />'.ucwords($tag).' ('.$tag_counted[$tag].')
-                                                </label>
-                                                </div>';
-                                            }
-                                        }
-                                    }
-                                }
-                                $ppg = 10; //query per page (default)
-                                $search_page_location = ''; //page query links
-                                $extra_param = '';
-                                $search = '';
-                                $sql = "SELECT * FROM `chara`";
-                                $tags_count = 0;
-                            if(isset($_GET['search'])){
-                                $search = mysqli_escape_string($conn,$_GET['search']);
-                                $tags = explode(',',mysqli_escape_string($conn,$_GET['tag']));
-                                $tag_raw = mysqli_escape_string($conn,$_GET['tag']);
-                                $sql = "SELECT * FROM `chara` WHERE `name` LIKE '%$search%'";
-                                $extra_param.= "&search=$search";
-                                $extra_param.= "&tag=$tag_raw";
-                                if( isset($_GET['show-image']) ){
-                                    $extra_param.= "&show-image=1";
-                                    $show_image = true;
-                                }else{
-                                    $show_image = false;
-                                }
-                                if( isset($_GET['edit-mode']) ){
-                                    $extra_param.= "&edit-mode=1";
-                                    $edit = true;
-                                }else{
-                                    $edit = false;
-                                }
-
-                                if( isset($_GET['ppg']) ){
-                                    if( $_GET['ppg'] >= 1 && $_GET['ppg'] <= 1000 ){
-                                        $ppg = $_GET['ppg'];
-                                        $extra_param.= "&ppg=".$_GET['ppg'];
-                                    }
-                                }
-
-                                if( isset($_GET['portrait-mode']) ){
-                                    $extra_param.= "&portrait-mode=1";
-                                    $portrait = true;
-                                    $ppg = 40;
-                                }else{
-                                    $portrait = false;
-                                }
-
-                                if( isset($_GET['sort']) && isset($_GET['by']) ){
-                                    $by = mysqli_escape_string($conn,$_GET['by']);
-                                    $sort = mysqli_escape_string($conn,$_GET['sort']);
-                                    $extra_param.= "&sort=$sort&by=$by";
-                                    $sort = " ORDER BY `$by` ".strtoupper($sort);
-                                    $sql .= $sort;
-                                }
-
-                                $tags_count = 0;
-                                foreach($tags as $tag){
-                                    if( !empty($tag) ){
-                                        $tags_count++;
-                                    }   
-                                }
-                            }
-                                //echo $tags_count;
+                                require 'search.php';
                             ?>
                             <br><br>
                             <select name="sort" id="filter1" onchange="switchFilterOption();">
@@ -159,16 +50,11 @@
                                 <input type="checkbox" class="form-check-input" name="show-image" value="1" <?php if($show_image==true){echo 'checked';} ?> />Show Image
                             </label>
                             </div>
-                            <div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" name="edit-mode" value="1" <?php if($edit==true){echo 'checked';} ?> />Enable Edit Mode
-                            </label>
-                            </div>
-                            <div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" name="portrait-mode" value="1" <?php if($portrait==true){echo 'checked';} ?> />Portrait Mode
-                            </label>
-                            </div>
+                            <select name="mode" id="type-filter" onchange="switchFilterOption();">
+                                <option value="big">Big List</option>
+                                <option value="small">Small List</option>
+                                <option value="portrait">Portrait</option>
+                            </select>
                             <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> Search</button>
                         </form>
                     </div>
@@ -178,8 +64,6 @@
                         if( isset($_GET['page']) || !isset($_GET['page']) ){ //remove or to limit if user press only
                             //Counting for Pagination (Must be placed before adding LIMIT or generating buttons)
                             //echo $sql;
-                            $res = $conn->query($sql);
-                            $countres = mysqli_num_rows($res);
                             $pages = ceil($countres/$ppg); //Round UP the decimal
                             if(isset($_GET['page'])){
                                 $selectedpage = $_GET['page'];
@@ -211,24 +95,34 @@
                             //Generate Result
                             if($selectedpage_verified == true){
                                 if( mysqli_num_rows($res) > 0 ){
+                                    if( $mode == 'small' ){
+                                        echo '<table width="100%" style="margin-top:20px;" class="table table-hover table-responsive-sm">
+                                        <thead class="thead-light">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Anime</th>
+                                            <th class="text-center">Appeared On</th>
+                                            <th>Rating</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>';
+                                    }
                                     while($row = mysqli_fetch_array($res)){
-                                        $anime_tags = array();
-                                        $anime_tags = explode(',',$row['tag']);
-                                        $completion_tag = 0;
-                                        foreach( $anime_tags as $anime_tag ){
-                                            if( in_array($anime_tag,$tags) && !empty($anime_tag) ){
-                                                $completion_tag++;
-                                            }
-                                        }
                                         $edit_mode = '';
                                         $english_title = '';
                                         if( !empty($row['english_title']) ){
                                             $english_title = '('.$row['english_title'].')';
                                         }
-                                        if( $edit == true ){
-                                            $edit_mode ='
-                                                    <a href="edit.php?id='.$row['id'].'" class="btn btn-primary waves-effect waves-dark">
-                                                    <i class="fa fa-edit" style="font-size:1.2rem"></i></a>';
+                                        if(isset($_SESSION["myanimelist_username"])){
+                                            if($user_row['status'] == 'administrator'){
+                                                if( $edit == true ){
+                                                    $edit_mode ='
+                                                            <a href="edit.php?id='.$row['id'].'" class="btn btn-primary waves-effect waves-dark">
+                                                            <i class="fa fa-edit" style="font-size:1.2rem"></i></a>';
+                                                }
+                                            }
                                         }
 
                                         //fetching image
@@ -256,8 +150,8 @@
                                             */
                                             if(!empty($tag_rows[$i])){
                                                 switch($tag_rows[$i]){
-                                                    case 'favorite' : $final_tag .= '<span class="sm-icon" style="background-color:maroon;">'.ucwords($tag_rows[$i]).'</span>';break;
-                                                    default : $final_tag .= '<span class="sm-icon">'.ucwords($tag_rows[$i]).'</span>';break;
+                                                    case 'favorite' : $final_tag .= '<td><span class="sm-icon" style="background-color:maroon;">'.ucwords($tag_rows[$i]).'</span></td>';break;
+                                                    default : $final_tag .= '<td><span class="sm-icon">'.ucwords($tag_rows[$i]).'</span></td>';break;
                                                 }
                                             }
                                         }
@@ -291,52 +185,57 @@
                                             }
                                         }
 
-                                        if( $portrait == false ){
-                                            if( ($completion_tag >= $tags_count && isset($_GET['search'])) || !isset($_GET['search']) ){
-                                                echo '
-                                                <div class="search-result-container">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                    <h5>'.$row['name'].' <small><i class="fas fa-star fa-sm" style="color:orange;"></i>'.$rating_final.' (ID: '.$row['id'].')</small></h5>
-                                                    </div>'.$image_div.'
-                                                    <div class="col-sm-8 col-md-10">
-                                                        <p>'.$appear_on_anime.' on Episode '.$row['appeared'].'</p>
-                                                        <p class="desc-hidden sm-hide">'.$row['description'].'</p>
-                                                        <p>'.$final_tag.'</p>
-                                                        <a href="view.php?id='.$row['id'].'" class="btn btn-primary waves-effect waves-dark">
-                                                        View</a>'.$edit_mode.'
+                                        if( (isset($_GET['search'])) || !isset($_GET['search']) ){
+                                            if( $mode == 'big' || $mode == false ){
+                                                    echo '
+                                                    <div class="search-result-container">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                        <h5>'.$row['name'].' <small><i class="fas fa-star fa-sm" style="color:orange;"></i>'.$rating_final.' (ID: '.$row['id'].')</small></h5>
+                                                        </div>'.$image_div.'
+                                                        <div class="col-sm-8 col-md-10">
+                                                            <p>'.$appear_on_anime.' on Episode '.$row['appeared'].'</p>
+                                                            <p class="desc-hidden sm-hide">'.$row['description'].'</p>
+                                                            <table class="table table-responsive table-cut-padding">'.$final_tag.'</table>
+                                                            <a href="view.php?id='.$row['id'].'" class="btn btn-primary waves-effect waves-dark">
+                                                            View</a>'.$edit_mode.'
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                </div>'; 
-                                            }
-                                        }else{
-                                            if( ($completion_tag >= $tags_count && isset($_GET['search'])) || !isset($_GET['search']) ){
-                                            $img_url = "'".$images[0]."'";
-                                            $link_url = "'view.php?id=".$row['id']."'";
-                                            echo '
-                                            <div class="col-lg-3 col-md-4 col-sm-6 col-6 col-xl-20 portrait-result-container-wrapper">
-                                            <div class="portrait-result-container" style="background: url('.$img_url.');" onclick="href('.$link_url.');">
-                                            <div style="color:white;background-color:rgba(0,0,0,0.5);height:70px;position:absolute;bottom:20px;left:10%;right:10%;padding:10px;">
-                                            <h6>'.$row['name'].' <small><br><i class="fas fa-star fa-sm" style="color:orange;"></i>'.$rating_final.'  (ID: '.$row['id'].')
-                                            Episode '.$row['appeared'].'</small></h6>
-                                            </div>
-                                            </div>
-                                            </div>';
-                                            }
+                                                    </div>'; 
+                                            }else if( $mode == 'portrait' ){
+                                                echo '<div class="gallery-wrapper portrait col"><a href="../anime/view.php?id='.$row['id'].'" class="horizontal-list"><span class="gallery-title">'.$row['name'].' <span style="white-space:nowrap;font-size:.8em;"><i class="fas fa-star fa-sm" style="color:orange;"></i>'.$rating_final.'</span></span>
+                                                <img class="gallery-img lazyloaded" src="'.$images[0].'" />
+                                                </a></div>';
+                                            }else if( $mode == 'small' ){
+                                                echo '<tr>
+                                                <td>'.$row['id'].'</td>
+                                                <td>'.$row['name'].'</td>
+                                                <td>'.$appear_on_anime.'</td>
+                                                <td class="text-center">'.$row['appeared'].'</td>
+                                                <td><i class="fas fa-star fa-sm" style="color:orange;"></i>'.$rating_final.'</td>
+                                                <td class="text-center small-list">
+                                                <a href="view.php?id='.$row['id'].'" class="btn btn-primary waves-effect waves-dark">
+                                                View</a>'.$edit_mode.'
+                                                </td>
+                                                </tr>';
+                                            }   
                                         }
                                     }
+                                    if( $mode == 'small' ){
+                                        echo '</tbody></table>';
+                                    }
                                 }else{
-                                    echo '<h5>No Result</h5>';
+                                    echo '<h5 style="padding:20px;">No Result</h5>';
                                 }
                             }else if( !isset($_GET['page']) ){
-                                echo '<h5>Undefined Pages</h5>';
+                                echo '<h5 style="padding:20px;">Undefined Pages</h5>';
                             }else if( $selectedpage_verified == true ){
-                                echo '<h5>Such Pages doesn\'t exist!</h5>';
+                                echo '<h5 style="padding:20px;">Such Pages doesn\'t exist!</h5>';
                             }else{
-                                echo '<h5>No Result Found!</h5>';
+                                echo '<h5 style="padding:20px;">No Result Found!</h5>';
                             }
                         }else{
-                            echo '<h5>Start Searching</h5>';
+                            echo '<h5 style="padding:20px;">Start Searching</h5>';
                         }
                                                         
                     ?>

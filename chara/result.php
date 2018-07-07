@@ -52,22 +52,27 @@
             }
             */
             if(!empty($tag_rows[$i])){
-            switch($tag_rows[$i]){
-                case 'favorite' : $final_tag .= '<span class="sm-icon md" style="background-color:maroon;">'.ucwords($tag_rows[$i]).'</span>';break;
-                default : $final_tag .= '<span class="sm-icon md">'.ucwords($tag_rows[$i]).'</span>';break;
-            }
+                switch($tag_rows[$i]){
+                    case 'favorite' : $final_tag .= '<td><span class="sm-icon md" style="background-color:maroon;">'.ucwords($tag_rows[$i]).'</span></td>';break;
+                    default : $final_tag .= '<td><span class="sm-icon md">'.ucwords($tag_rows[$i]).'</span></td>';break;
+                }
             }
         }
+        ?>
+        <?php 
+            if($user_row['status']=='administrator'){
+                echo '<a href="edit.php?id='.$row['id'].'" style="margin:10px 0;" class="btn btn-primary">Edit</a>'; 
+            }
         ?>
     </div>
     <div class="col-md-9 col-sm-12 col-12">
         <h6>Anime</h6>
         <p><?php echo $appear_on_anime; ?></p>
-        <p><?php echo $final_tag; ?></p>
+        <table class="table table-responsive table-cut-padding"><tr><?php echo $final_tag; ?></tr></table>
         <h6>Appeared on Episode</h6>
         <p><?php echo $row['appeared']; ?></p>
         <h6>Description</h6>
-        <p class="text-justify"><?php echo $row['description']; ?></p>
+        <p class="text-justify description"><?php echo $row['description']; ?></p>
         <div class="hr hr-100"></div>
         <h6>Gallery</h6>
         <?php
